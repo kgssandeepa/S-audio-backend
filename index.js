@@ -25,7 +25,7 @@ import jwt from "jsonwebtoken"
     app.use((req,res,next)=>{
          const token =req.header
          ("Authorization")
-
+      //create the auth
          if (token!=null){
           token=token.replace("Bearer","");
 
