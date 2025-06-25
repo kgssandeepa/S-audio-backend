@@ -17,7 +17,7 @@
     mongoose.connect(mongourl, {
       useNewUrlParser: true, 
       useUnifiedTopology: true
-    }).then(() => {
+    }).then(() => { 
       console.log('Connected to MongoDB');
     }).catch(err => {
       console.error('Error connecting to MongoDB:', err);
@@ -34,7 +34,7 @@
           
          
 
-         jwt.verify(token,"kv-secret-89!",(err,decoded)=>{
+         jwt.verify(token,process.env.JWT_SECRET,(err,decoded)=>{
           if(!err){
             req.user=decoded;
           }
