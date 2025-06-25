@@ -1,16 +1,18 @@
  import express, { response } from "express";
  import bodyParser from "body-parser";
  import mongoose from "mongoose";
-import userRouter from './routes/userrouter.js';
-import productRouter from "./routes/productRouter.js";
-import jwt from "jsonwebtoken"
+ import userRouter from './routes/userrouter.js';
+ import productRouter from "./routes/productRouter.js";
+ import jwt from "jsonwebtoken";
+ import dotenv from "dotenv";
 
+ dotenv.config();
  
  const app=express();
 
  app.use(bodyParser.json());
 
- let mongourl ="mongodb+srv://adminsonal:123@cluster0.yyor4.mongodb.net/prods?retryWrites=true&w=majority&appName=Cluster0"
+ let mongourl =process.env.MONGO_URL;
  
     mongoose.connect(mongourl, {
       useNewUrlParser: true, 
