@@ -5,6 +5,7 @@
  import productRouter from "./routes/productRouter.js";
  import jwt from "jsonwebtoken";
  import dotenv from "dotenv";
+ import reviewRouter from "./routes/reviewRouter.js";
 
  dotenv.config();
  
@@ -25,7 +26,7 @@
     
    app.use(bodyParser.json())
     app.use((req,res,next)=>{
-         const token =req.header
+         let token =req.header
          ("Authorization")
       //create the auth
          if (token!=null){
@@ -49,6 +50,7 @@
 
 app.use("/api/users",userRouter)
 app.use("/api/product",productRouter)
+app.use("/api/reviews",reviewRouter);
 
 
 
