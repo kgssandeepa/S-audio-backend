@@ -3,7 +3,7 @@ import product from "../models/product.js";
 export function addproduct(req,res){
     console.log(req.user)
 
-    if (req.user==null){
+    if (!req.user){
         res.status(401).json({
             massage:"please login and try again"
         })
