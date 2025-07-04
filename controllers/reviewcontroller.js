@@ -11,13 +11,13 @@ export function addReview(req,res){
         return;
      }
 
-     const data = req.body;
+     let data = req.body;
 
      data.name = req.user.firstName +""+ req.user.lastName;
      data.profilepicture = req.user.profilepicture;
      data.email=req.user.email;
           
-     const newReview = new Review(data)
+     let newReview = new Review(data)
 
      newReview.save().then(()=>{
         res.json({massage:"Review additon succesfully"});
