@@ -25,3 +25,61 @@ export function addReview(req,res){
         req.status(500).json({error:"Review additon failed"});
      });
 }  
+export function getReview(req,res){
+   const use = req.user;
+
+   if( user == null|| user.role !="admin"){
+
+      Review.find({isApproved:true}).then((reviews)=>{
+         req.json(reviews); 
+      })
+      return
+   }
+ if (user.role=="admin"){
+   Review.find().then((reviews)=>{
+      res.json(reviews);
+   })
+ }
+}
+
+export function deleteReview(req,res){
+   const email =  req.params.email;
+
+     if (req.user == null){
+        res.status(401).json({
+           massage:"please login and try again"
+        })
+        return;
+     }
+       
+     if (req.user.role== "admin"){
+
+
+      
+   Review.deleteOne
+   ({email:email}).then(()=>{
+      res.json({massage:"Review Deleted succesfully"});
+   
+   }).catch(()=>{
+      res.status(500).json({error:"Review deletion failed"});
+   });
+   return
+
+} 
+if (req.user.role== "customer"){
+
+   if(req.user.email == email){
+      Review.deleteOne
+   ({email:email}).then(()=>{
+      res.json({massage:"Review Deleted succesfully"});
+   
+   }).catch(()=>{
+      res.status(500).json({error:"Review deletion failed"});
+   });
+
+   }else{
+      req.status(403).json({massage:"you are not authorized to perform this action"});
+   }
+}  
+
+}
