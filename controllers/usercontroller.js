@@ -10,7 +10,7 @@ const data =req.body;
 console.log(data);
 
 data.password = bcrypt.hashSync(data.password,10);
-
+//.
 const newUser = new User(data);
 
   newUser.save().then(()=>{

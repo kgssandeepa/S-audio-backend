@@ -21,26 +21,25 @@ export function addReview(req,res){
 
      newReview.save().then(()=>{
         res.json({massage:"Review additon succesfully"});
-     }).catch((error)=>{
+   }).catch((error)=>{
         req.status(500).json({error:"Review additon failed"});
-     });
+    });
 }  
-export function getReview(req,res){
+export async function getReview(req,res){
    const use = req.user;
 
-   if( user == null|| user.role !="admin"){
-
-      Review.find({isApproved:true}).then((reviews)=>{
-         req.json(reviews); 
-      })
-      return
-   }
- if (user.role=="admin"){
-   Review.find().then((reviews)=>{
+  try{
+   if (user.role == "admin"){
+      const reviews= await Review.find();
       res.json(reviews);
-   })
- }
-}
+   }else{
+      const reviews = await Review.find({isApproved:true});
+      res.json(reviews);
+   }
+  }catch(error){
+   res.status(500).json({error:"failed to get reviews"});
+  }
+} 
 
 export function deleteReview(req,res){
    const email =  req.params.email;
@@ -77,9 +76,34 @@ if (req.user.role== "customer"){
       res.status(500).json({error:"Review deletion failed"});
    });
 
-   }else{
+    }else{
       req.status(403).json({massage:"you are not authorized to perform this action"});
-   }
+    }
 }  
 
 }
+export function approveReview(req,res){
+   const email = req.params.emaill;
+
+   if(req.user == null){
+      res.status(401).json({massage:"please login and try agin"});
+      return
+    }
+     if (req.user.role == "admin"){
+
+       Review.updateOne(
+         {
+            email:email
+         }
+         ,{
+          isApproved:true,
+         }
+       ).then(()=>{
+         res.json({massage :"Review approved Successfully"})
+       }).catch(()=>{
+         res.status(500).json({error : "Review approvel failed" });
+        });
+       }else{
+       res.status(403).json({massage:"you are not and admin.only admins can approve the reviews"});
+    }
+} 
