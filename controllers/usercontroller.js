@@ -47,21 +47,13 @@ export function loginUser(req,res){
             profilepicture:User.profilepicture
          },process.env.JWT_SECRET);
 
-         return res.json({massage:"login succesfull",token :token});
+          res.json({massage:"login succesfull",token :token});
         }  else{
-         return res.status(401).json({error:"login faild"});
+          res.status(401).json({error:"login faild"});
         }
-         /*"email": "sandeepa88@gmail.com",
-           "password": "123",
-            "role": "customer",*/
-
-          /*"email": "sonal08@gmail.com",
-           "password": "123",
-           "role": "admin",*/
-          
-
-          
-        }
-      })
+        
+       }
+      });
+     
     }
   

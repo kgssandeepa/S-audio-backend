@@ -24,4 +24,17 @@ export function addproduct(req,res){
     .catch((error)=>{
         res.staus(500).json({error:"product addition failed"});
     })
+} 
+
+export async function getProducts(req,res) {
+    try{
+        const products = await product.find();
+        res.json(products);
+
+    }catch(e){
+        res.status(500).json({
+            massage:"failed to get products"
+        })
+    }
 }
+
