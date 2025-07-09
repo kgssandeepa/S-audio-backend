@@ -43,7 +43,8 @@ export function loginUser(req, res) {
             lastName: User.lastName,
             email: User.email,
             role: User.role,
-            profilepicture: User.profilepicture
+            profilepicture: User.profilepicture,
+            phone:User.phone
           }, process.env.JWT_SECRET);
 
           res.json({ massage: "login succesfull", token: token });
@@ -67,4 +68,14 @@ export function isitAdmin(req) {
   }
   return isAdmin;
 }
+export function isitCustomer(req) {
+console.log()
 
+  let isCustomer = false;
+  if (req.user != null) {
+    if (req.user.role == "customer") {
+      isCustomer = true;
+    }
+  }
+  return isCustomer;
+}
