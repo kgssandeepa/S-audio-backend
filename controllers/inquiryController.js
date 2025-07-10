@@ -11,7 +11,6 @@ export async function addinquiry(req, res) {
 
             let id = 0;
 
-            console.log(" 1 =============");
 
             const inquiries = await inquiry.find
                 ().sort({ id: -1 }).limit(1);
@@ -30,8 +29,9 @@ export async function addinquiry(req, res) {
                 save();
 
             res.json({
-                massage: "inquiry added successfully",
+                message: "inquiry added successfully",
                 id: response.id
+
             })
 
         }
@@ -40,8 +40,75 @@ export async function addinquiry(req, res) {
 
 
         res.status(500).json({
-            massage: "failed to add inquiry"
+            message: "failed to add inquiry"
         })
     }
 
+}
+
+export async function getinquiries(req, res) {
+
+    try {
+        if (isitCustomer(req)) {
+            const inquiries = await inquiry.find({ email: req.user.email });
+            res.json(inquiries);
+            return;
+
+        } else if (isitadmin(req)) {
+            const inquiries = await inquiry.find();
+            res.json(inquiries);
+        } else {
+            res.status(403).json({
+                message: "you are not authorized to perform this action"
+            })
+            return;
+        }
+    } catch (e) {
+        res.status(500).json({
+            message: "failed to get inquiries"
+        })
+    }
+}
+
+export async function deleteinquiry(req, res) {
+
+    try {
+        if (isitCustomer(req)) {
+            const id = req.params.id;
+
+            await inquiry.deleteOne({ id: id })
+            res.json({
+                message: "inquiry deleted successfully"
+            })
+            return;
+        } else if (isitCustomer(req)) {
+            const id = req.params.id;
+
+            const inquiry = await inquiry.findone({ id: id });
+            res.status(404).json({
+                message: "inquiry not found"
+            })
+            return;
+        } else {
+            if (inquiry.email == req.user.email) {
+                await inquiry.deleteOne({ id: id })
+                res.json({
+                    message: "inquiry deleted successfully"
+                })
+                return;
+            } else {
+                res.status(403).json({
+                    message: "you are not authorized to perform this action"
+                })
+                return;
+            }
+        }
+
+        
+    } catch (e) {
+        res.status(500).json({
+            message: "failed to delete inquiry"
+        })
+    
+}
 }

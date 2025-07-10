@@ -82,18 +82,18 @@ export async function deleteProduct(req, res) {
             const key = req.params.key;
             await product.deleteOne({ key: key })
             res.json({
-                massage:"product deleted successfully"
+                message:"product deleted successfully"
             })
 
         } else {
             res.status(403).json({
-                massage: "you are not authorized to perform this action"
+                message: "you are not authorized to perform this action"
             })
             return;
         }
     } catch (e) {
         res.status(500).json({
-            massage: "failed to delete product"
+            message: "failed to delete product"
         })
     }
 

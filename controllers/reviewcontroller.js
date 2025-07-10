@@ -6,7 +6,7 @@ export function addReview(req,res){
 
      if (req.user == null){
         res.status(401).json({
-           massage:"please login and try again"
+           message:"please login and try again"
         })
         return;
      }
@@ -20,7 +20,7 @@ export function addReview(req,res){
      let newReview = new Review(data)
 
      newReview.save().then(()=>{
-        res.json({massage:"Review additon succesfully"});
+        res.json({message:"Review additon succesfully"});
    }).catch((error)=>{
         req.status(500).json({error:"Review additon failed"});
     });
@@ -46,7 +46,7 @@ export function deleteReview(req,res){
 
      if (req.user == null){
         res.status(401).json({
-           massage:"please login and try again"
+           message:"please login and try again"
         })
         return;
      }
@@ -57,7 +57,7 @@ export function deleteReview(req,res){
       
    Review.deleteOne
    ({email:email}).then(()=>{
-      res.json({massage:"Review Deleted succesfully"});
+      res.json({message:"Review Deleted succesfully"});
    
    }).catch(()=>{
       res.status(500).json({error:"Review deletion failed"});
@@ -70,14 +70,14 @@ if (req.user.role== "customer"){
    if(req.user.email == email){
       Review.deleteOne
    ({email:email}).then(()=>{
-      res.json({massage:"Review Deleted succesfully"});
+      res.json({message:"Review Deleted succesfully"});
    
    }).catch(()=>{
       res.status(500).json({error:"Review deletion failed"});
    });
 
     }else{
-      req.status(403).json({massage:"you are not authorized to perform this action"});
+      req.status(403).json({message:"you are not authorized to perform this action"});
     }
 }  
 
@@ -86,7 +86,7 @@ export function approveReview(req,res){
    const email = req.params.emaill;
 
    if(req.user == null){
-      res.status(401).json({massage:"please login and try agin"});
+      res.status(401).json({message:"please login and try agin"});
       return
     }
      if (req.user.role == "admin"){
@@ -99,11 +99,11 @@ export function approveReview(req,res){
           isApproved:true,
          }
        ).then(()=>{
-         res.json({massage :"Review approved Successfully"})
+         res.json({message :"Review approved Successfully"})
        }).catch(()=>{
          res.status(500).json({error : "Review approvel failed" });
         });
        }else{
-       res.status(403).json({massage:"you are not and admin.only admins can approve the reviews"});
+       res.status(403).json({message:"you are not and admin.only admins can approve the reviews"});
     }
 } 

@@ -14,7 +14,7 @@ export function registeruser(req, res) {
   const newUser = new User(data);
 
   newUser.save().then(() => {
-    res.json({ massage: "User registerd successfully" })
+    res.json({ message: "User registerd successfully" })
 
   }).catch((error) => {
     res.status(500).json({ error: "user register failed" });
@@ -47,7 +47,7 @@ export function loginUser(req, res) {
             phone:User.phone
           }, process.env.JWT_SECRET);
 
-          res.json({ massage: "login succesfull", token: token });
+          res.json({ message: "login succesfull", token: token });
         } else {
           res.status(401).json({ error: "login faild" });
         }
