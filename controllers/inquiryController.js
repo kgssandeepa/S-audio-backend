@@ -1,5 +1,5 @@
 import inquiry from "../models/inquiry.js";
-import { isitCustomer } from "./usercontroller.js";
+import { isitAdmin, isitCustomer } from "./usercontroller.js";
 
 export async function addinquiry(req, res) {
     try {
@@ -104,11 +104,59 @@ export async function deleteinquiry(req, res) {
             }
         }
 
-        
+
     } catch (e) {
         res.status(500).json({
             message: "failed to delete inquiry"
         })
-    
+
+    }
 }
+
+export async function updateinquiry(req, res) {
+
+    try {
+        if (isitAdmin(req)) {
+            const id = req.params.id;
+            const data = req.body;
+
+            await inquiry.updateOne({ id: id }, data)
+            res.json({
+                message: "inquiry updated successfully"
+            })
+        } else if (isitCustomer(req)) {
+            const id = req.params.id;
+            const data = req.body;
+
+            const inquiry = await inquiry.findone({ id: id });
+            if (inquiry == null) {
+                res.status(404).json({
+                    message: "inquiry not found"
+                })
+                return;
+            } else {
+                if (inquiry.email == req.user.email) {
+                    await inquiry.updateOne({ id: id }, {message:data.message})
+                    res.json({
+                        message: "inquiry updated succesfully"
+                    })
+                    return;
+                } else {
+                    res.status(403).json({
+                        message: "you are not authorized to perform this action"
+                    })
+                    return;
+                }
+            }
+
+        }
+
+    } catch (e) {
+        res.status(500).json({
+            message: "failed to update inquiry"
+        })
+    }
+
 }
+
+
