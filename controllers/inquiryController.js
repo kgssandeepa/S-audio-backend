@@ -149,6 +149,10 @@ export async function updateinquiry(req, res) {
                 }
             }
 
+        }else{
+            res.status(403).json({
+                message:"you are not authorized to perform this action"
+            })
         }
 
     } catch (e) {
