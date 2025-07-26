@@ -136,7 +136,7 @@ export async function updateinquiry(req, res) {
                 return;
             } else {
                 if (inquiry.email == req.user.email) {
-                    await inquiry.updateOne({ id: id }, {message:data.message})
+                    await inquiry.updateOne({ id: id }, { message: data.message })
                     res.json({
                         message: "inquiry updated succesfully"
                     })
@@ -149,9 +149,9 @@ export async function updateinquiry(req, res) {
                 }
             }
 
-        }else{
+        } else {
             res.status(403).json({
-                message:"you are not authorized to perform this action"
+                message: "you are not authorized to perform this action"
             })
         }
 
